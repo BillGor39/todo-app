@@ -6,12 +6,14 @@ sg.theme("Black")
 clock_label = sg.Text(key="clock")
 input_label = sg.Text("Type in a to-do:")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
-add_button = sg.Button("Add")
+add_button = sg.Button(image_size=(50, 30), mouseover_colors="LightBlue2",
+                       tooltip="Add to do", image_source="add.png", key="Add")
 todo_label = sg.Text("")
 list_box = sg.Listbox(values=functions.get_todos(), key="todos",
-                      enable_events=True, size=[44,10])
+                      enable_events=True, size=(44, 10))
 edit_button = sg.Button("Edit")
-complete_button = sg.Button("Complete")
+complete_button = sg.Button(image_size=(60, 50), mouseover_colors="LightBlue2", tooltip="complete",
+                            image_source="complete.png", key="Complete")
 message_label = sg.Text(key="message")
 exit_button = sg.Button("Exit")
 
@@ -30,10 +32,13 @@ while True:
         case "Add":
             todos = functions.get_todos()
             new_todo = values["todo"].capitalize() + "\n"
-            todos.append(new_todo)
-            functions.write_todos(todos)
-            window["todos"].update(values=todos)
-            window["todo"].update(value="")
+            if new_todo != "\n":
+                todos.append(new_todo)
+                functions.write_todos(todos)
+                window["todos"].update(values=todos)
+                window["todo"].update(value="")
+            else:
+                sg.popup("Cannot add empty todo.")
 
         case "Edit":
             try:
